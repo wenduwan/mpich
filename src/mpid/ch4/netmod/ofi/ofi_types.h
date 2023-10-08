@@ -338,8 +338,8 @@ typedef struct {
 typedef struct {
     /* OFI objects */
     int avtid;
-    struct fi_info *prov_use[MPIDI_OFI_MAX_NICS];
-    MPIDI_OFI_nic_info_t nic_info[MPIDI_OFI_MAX_NICS];
+    struct fi_info **prov_use;
+    MPIDI_OFI_nic_info_t *nic_info;
     struct fid_fabric *fabric;
 
     int got_named_av;
@@ -365,7 +365,7 @@ typedef struct {
 
     /* Mutexes and endpoints */
     MPIDI_OFI_cacheline_mutex_t mutexes[MAX_OFI_MUTEXES];
-    MPIDI_OFI_context_t ctx[MPIDI_CH4_MAX_VCIS * MPIDI_OFI_MAX_NICS];
+    MPIDI_OFI_context_t *ctx;
     MPIDI_OFI_per_vci_t per_vci[MPIDI_CH4_MAX_VCIS];
     int num_vcis;
     int num_nics;
@@ -406,7 +406,7 @@ typedef struct {
     MPIR_Request *ackreq;
     void *send_buf;
     size_t msgsize;
-    uint64_t rma_keys[MPIDI_OFI_MAX_NICS];
+    uint64_t *rma_keys;
     int vci_src;
     int vci_dst;
 } MPIDI_OFI_huge_remote_info_t;
